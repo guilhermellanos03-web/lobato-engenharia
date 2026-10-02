@@ -1,0 +1,33 @@
+---
+import Icon from './Icon.astro';
+interface Crumb { label: string; href?: string; }
+interface Props { items: Crumb[]; }
+const { items } = Astro.props;
+
+const SITE_URL = import.meta.env.PUBLIC_SITE_URL || 'https://lobato-engenharia.vercel.app';
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: items.map((c, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: c.label,
+    ...(c.href ? { item: new URL(c.href, SITE_URL).href } : {}),
+  })),
+};
+---
+<nav aria-label="Trilha de navegação" class="text-sm">
+  <ol class="flex flex-wrap items-center gap-1.5 text-body">
+    {items.map((c, i) => (
+      <li class="flex items-center gap-1.5">
+        {c.href && i < items.length - 1 ? (
+          <a href={c.href} class="hover:text-brand-ink">{c.label}</a>
+        ) : (
+          <span aria-current="page" class="text-ink font-medium">{c.label}</span>
+        )}
+        {i < items.length - 1 && <Icon name="chevron" class="w-3.5 h-3.5 -rotate-90 text-body/60" />}
+      </li>
+    ))}
+  </ol>
+</nav>
+<script type="application/ld+json" set:html={JSON.stringify(ld)} />

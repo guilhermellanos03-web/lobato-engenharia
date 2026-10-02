@@ -1,0 +1,15 @@
+---
+import Icon from './Icon.astro';
+import { waLink } from '../data/site';
+---
+<a
+  href={waLink()}
+  target="_blank"
+  rel="noopener noreferrer"
+  data-contact="whatsapp"
+  data-location="floating"
+  aria-label="Falar com a Lobato pelo WhatsApp"
+  class="fixed bottom-5 right-5 z-40 inline-flex items-center justify-center w-14 h-14 rounded-full bg-wa text-white shadow-lg ring-1 ring-black/10 transition-transform hover:scale-105 focus-visible:scale-105 print:hidden"
+>
+  <Icon name="whatsapp" class="w-7 h-7" />
+</a>

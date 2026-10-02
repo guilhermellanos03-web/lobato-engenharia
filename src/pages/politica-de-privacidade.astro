@@ -1,0 +1,91 @@
+---
+import Base from '../layouts/Base.astro';
+import Navbar from '../components/Navbar.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Footer from '../components/Footer.astro';
+import FloatingWhatsApp from '../components/FloatingWhatsApp.astro';
+import { site } from '../data/site';
+
+const title = 'Política de Privacidade | Lobato Engenharia';
+const description = 'Como a Lobato Engenharia trata os dados enviados pelo site, conforme a LGPD.';
+const crumbs = [{ label: 'Início', href: '/' }, { label: 'Política de privacidade' }];
+const updated = new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' });
+
+const h2 = 'mt-10 font-heading font-bold text-xl text-ink';
+const p = 'mt-3 leading-relaxed';
+const ul = 'mt-3 space-y-2 list-disc pl-5 marker:text-brand';
+---
+<Base title={title} description={description}>
+  <Navbar />
+  <main id="conteudo">
+    <PageHeader eyebrow="Legal" title="Política de Privacidade" crumbs={crumbs} />
+
+    <section class="bg-canvas py-14 lg:py-20">
+      <article class="container-rc max-w-3xl text-body">
+        <p class="text-sm text-body/70">Última atualização: {updated}</p>
+
+        <p class={p}>
+          Esta Política explica como a {site.name} ("Lobato", "nós") trata os dados pessoais recebidos por meio deste site, em conformidade com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018). Ao utilizar o site e enviar uma solicitação, você concorda com as práticas descritas aqui.
+        </p>
+
+        <h2 class={h2}>Quem é o responsável pelos dados</h2>
+        <p class={p}>
+          O tratamento dos dados é de responsabilidade da {site.name}, sediada em {site.city}, {site.regionName}. Para qualquer assunto relacionado a privacidade, o contato é {site.email}.
+        </p>
+
+        <h2 class={h2}>Quais dados coletamos</h2>
+        <p class={p}>Coletamos apenas os dados que você nos envia de forma voluntária:</p>
+        <ul class={ul}>
+          <li>Dados de contato informados no formulário ou no WhatsApp: nome, empresa, e-mail, telefone, cidade e a descrição do projeto.</li>
+          <li>Dados de navegação (como páginas visitadas e tipo de dispositivo), quando ferramentas de análise estiverem ativas, conforme descrito abaixo.</li>
+        </ul>
+        <p class={p}>
+          O formulário deste site não armazena informações em banco de dados próprio. Ao enviar, abrimos o WhatsApp com a sua mensagem já preenchida, e a conversa passa a ocorrer nesse aplicativo, sujeito às políticas do WhatsApp e da Meta.
+        </p>
+
+        <h2 class={h2}>Para que usamos os dados</h2>
+        <ul class={ul}>
+          <li>Responder à sua solicitação e dar andamento a uma eventual avaliação de projeto.</li>
+          <li>Entrar em contato pelos canais que você informou.</li>
+          <li>Entender o uso do site e melhorar a comunicação, quando ferramentas de análise estiverem ativas.</li>
+        </ul>
+
+        <h2 class={h2}>Base legal</h2>
+        <p class={p}>
+          O tratamento se apoia no seu consentimento e no interesse legítimo de responder a um contato comercial iniciado por você, nos termos da LGPD.
+        </p>
+
+        <h2 class={h2}>Ferramentas de análise e cookies</h2>
+        <p class={p}>
+          Este site pode utilizar ferramentas de análise e medição (como Google Analytics, Google Ads, Microsoft Clarity e Meta Pixel) para entender o uso das páginas e avaliar campanhas. Essas ferramentas só são ativadas quando configuradas e podem usar cookies ou identificadores. Você pode bloquear cookies nas configurações do seu navegador.
+        </p>
+
+        <h2 class={h2}>Compartilhamento</h2>
+        <p class={p}>
+          Não vendemos seus dados. O compartilhamento ocorre apenas com os provedores das ferramentas citadas, quando ativas, e com o WhatsApp, quando você escolhe esse canal para falar conosco.
+        </p>
+
+        <h2 class={h2}>Seus direitos</h2>
+        <p class={p}>
+          Você pode solicitar, a qualquer momento, acesso, correção, exclusão ou informações sobre o tratamento dos seus dados, além de revogar o consentimento. Para isso, escreva para {site.email}.
+        </p>
+
+        <h2 class={h2}>Segurança e retenção</h2>
+        <p class={p}>
+          Adotamos medidas razoáveis para proteger os dados recebidos e os mantemos apenas pelo tempo necessário para atender à sua solicitação ou cumprir obrigações legais.
+        </p>
+
+        <h2 class={h2}>Alterações</h2>
+        <p class={p}>
+          Esta Política pode ser atualizada. A data da última revisão é indicada no topo desta página.
+        </p>
+
+        <p class="mt-10 rounded-xl border border-line bg-surface p-4 text-sm">
+          Dúvidas sobre privacidade? Fale com a gente em <a href={`mailto:${site.email}`} class="link-underline text-brand-ink">{site.email}</a>.
+        </p>
+      </article>
+    </section>
+  </main>
+  <Footer />
+  <FloatingWhatsApp />
+</Base>

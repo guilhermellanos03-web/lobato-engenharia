@@ -1,0 +1,94 @@
+---
+import { site, services } from '../data/site';
+import Icon from './Icon.astro';
+const WA = (import.meta.env.PUBLIC_WHATSAPP as string) || site.phoneDigits;
+const field = 'w-full rounded-xl border border-line bg-canvas px-4 py-3 text-ink placeholder:text-body/60 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30';
+---
+<form id="lead-form" data-wa={WA} novalidate class="card p-6 sm:p-8 space-y-5">
+  <div class="grid sm:grid-cols-2 gap-5">
+    <div>
+      <label for="f-nome" class="block text-sm font-semibold text-ink mb-1.5">Nome <span class="text-brand-ink">*</span></label>
+      <input id="f-nome" name="nome" type="text" required autocomplete="name" class={field} placeholder="Seu nome" />
+    </div>
+    <div>
+      <label for="f-empresa" class="block text-sm font-semibold text-ink mb-1.5">Empresa</label>
+      <input id="f-empresa" name="empresa" type="text" autocomplete="organization" class={field} placeholder="Nome da empresa" />
+    </div>
+    <div>
+      <label for="f-email" class="block text-sm font-semibold text-ink mb-1.5">E-mail <span class="text-brand-ink">*</span></label>
+      <input id="f-email" name="email" type="email" required autocomplete="email" class={field} placeholder="voce@empresa.com.br" />
+    </div>
+    <div>
+      <label for="f-tel" class="block text-sm font-semibold text-ink mb-1.5">Telefone <span class="text-brand-ink">*</span></label>
+      <input id="f-tel" name="telefone" type="tel" required autocomplete="tel" class={field} placeholder="(41) 90000-0000" />
+    </div>
+    <div>
+      <label for="f-cidade" class="block text-sm font-semibold text-ink mb-1.5">Cidade <span class="text-brand-ink">*</span></label>
+      <input id="f-cidade" name="cidade" type="text" required class={field} placeholder="Curitiba" />
+    </div>
+    <div>
+      <label for="f-tipo" class="block text-sm font-semibold text-ink mb-1.5">Tipo de solução <span class="text-brand-ink">*</span></label>
+      <select id="f-tipo" name="tipo" required class={field}>
+        <option value="" selected disabled>Selecione</option>
+        {services.map((s) => <option value={s.title}>{s.title}</option>)}
+        <option value="Outra / não sei ainda">Outra / não sei ainda</option>
+      </select>
+    </div>
+  </div>
+
+  <div>
+    <label for="f-msg" class="block text-sm font-semibold text-ink mb-1.5">Mensagem</label>
+    <textarea id="f-msg" name="mensagem" rows="4" class={field} placeholder="Descreva a situação atual e o objetivo do projeto."></textarea>
+  </div>
+
+  <!-- honeypot anti-spam (oculto) -->
+  <div class="hidden" aria-hidden="true">
+    <label>Não preencha este campo<input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+  </div>
+
+  <label class="flex items-start gap-3 text-sm text-body">
+    <input id="f-consent" name="consent" type="checkbox" required class="mt-1 w-4 h-4 accent-brand shrink-0" />
+    <span>Concordo que a Lobato utilize meus dados para responder a esta solicitação, conforme a <a href="/politica-de-privacidade/" class="link-underline text-brand-ink">Política de Privacidade</a>.</span>
+  </label>
+
+  <button type="submit" class="btn-primary w-full">
+    <Icon name="whatsapp" class="w-5 h-5" />
+    Enviar pelo WhatsApp
+  </button>
+
+  <p id="form-note" class="flex items-start gap-2 text-xs text-body/80">
+    <Icon name="shield" class="w-4 h-4 text-brand-ink shrink-0 mt-0.5" />
+    Ao enviar, abrimos o WhatsApp com a sua mensagem já preenchida. Os dados não são armazenados neste site nem enviados a outros serviços.
+  </p>
+</form>
+
+<script>
+  const form = document.getElementById('lead-form') as HTMLFormElement | null;
+  const fire = (name: string, params: Record<string, unknown> = {}) => {
+    const w = window as any;
+    if (typeof w.gtag === 'function') w.gtag('event', name, params);
+    if (typeof w.fbq === 'function') w.fbq('trackCustom', name, params);
+  };
+  let started = false;
+  form?.addEventListener('input', () => { if (!started) { started = true; fire('form_start'); } });
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!form.reportValidity()) return;
+    const data = new FormData(form);
+    if ((data.get('website') as string)?.trim()) return; // honeypot preenchido: ignora
+    const wa = form.dataset.wa;
+    const get = (k: string) => ((data.get(k) as string) || '').trim();
+    const linhas = [
+      'Olá, encontrei a Lobato pelo site e gostaria de conversar sobre um projeto.',
+      `Nome: ${get('nome')}`,
+      get('empresa') && `Empresa: ${get('empresa')}`,
+      `Cidade: ${get('cidade')}`,
+      `Tipo de solução: ${get('tipo')}`,
+      get('mensagem') && `Mensagem: ${get('mensagem')}`,
+      `Contato: ${get('email')} | ${get('telefone')}`,
+    ].filter(Boolean);
+    const url = `https://wa.me/${wa}?text=${encodeURIComponent(linhas.join('\n'))}`;
+    fire('form_submit', { tipo: get('tipo') });
+    window.open(url, '_blank', 'noopener,noreferrer');
+  });
+</script>

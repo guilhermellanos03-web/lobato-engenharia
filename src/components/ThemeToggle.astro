@@ -1,0 +1,28 @@
+---
+import Icon from './Icon.astro';
+---
+<button
+  id="theme-toggle"
+  type="button"
+  class="inline-flex items-center justify-center w-10 h-10 rounded-lg border border-line text-ink hover:border-brand hover:text-brand-ink transition-colors"
+  aria-label="Alternar tema claro e escuro"
+  aria-pressed="false"
+>
+  <Icon name="sun" class="w-5 h-5 hidden dark:block" />
+  <Icon name="moon" class="w-5 h-5 block dark:hidden" />
+</button>
+
+<script>
+  const btn = document.getElementById('theme-toggle');
+  const root = document.documentElement;
+  const sync = () => {
+    const isDark = root.classList.contains('dark');
+    btn?.setAttribute('aria-pressed', String(isDark));
+  };
+  sync();
+  btn?.addEventListener('click', () => {
+    const isDark = root.classList.toggle('dark');
+    try { localStorage.setItem('theme', isDark ? 'dark' : 'light'); } catch (e) {}
+    sync();
+  });
+</script>

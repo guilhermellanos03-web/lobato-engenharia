@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== Tokens semanticos (claro padrao / escuro no .dark) ===== */
+@layer base {
+  :root {
+    --canvas: 255 255 255;      /* #FFFFFF  fundo da pagina */
+    --surface: 244 247 250;     /* #F4F7FA  secao alternada / cards */
+    --surface-2: 233 239 245;   /* #E9EFF5  realce sutil */
+    --ink: 11 27 43;            /* #0B1B2B  titulos / texto forte */
+    --body: 82 97 113;          /* #526171  texto corrido */
+    --line: 219 228 236;        /* #DBE4EC  bordas */
+    --brand-ink: 12 83 165;     /* #0C53A5  azul acessivel p/ links/icones */
+    color-scheme: light;
+  }
+  :root.dark {
+    --canvas: 6 26 51;          /* #061A33  azul profundo */
+    --surface: 11 34 62;        /* #0B223E */
+    --surface-2: 17 48 86;      /* #113056 */
+    --ink: 240 246 252;         /* #F0F6FC */
+    --body: 174 191 209;        /* #AEBFD1 */
+    --line: 32 60 97;           /* #203C61 */
+    --brand-ink: 125 196 255;   /* #7DC4FF */
+    color-scheme: dark;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 5rem; /* compensa header fixo nas ancoras */
+  }
+  body {
+    @apply bg-canvas text-body font-body antialiased;
+    line-height: 1.6;
+  }
+  h1, h2, h3, h4, h5 {
+    @apply font-heading text-ink;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+  img { max-width: 100%; display: block; height: auto; }
+  ::selection { background: rgba(8, 116, 249, 0.18); }
+  :focus-visible {
+    outline: 2px solid rgb(var(--brand-ink));
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+/* ===== Componentes ===== */
+@layer components {
+  .container-rc {
+    @apply mx-auto w-full max-w-content px-5 sm:px-6 lg:px-8;
+  }
+  .eyebrow {
+    @apply inline-block text-xs font-bold uppercase tracking-[0.14em] text-brand-ink;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl font-semibold leading-none text-center transition-all duration-200;
+  }
+  /* CTA principal: azul da marca em degrade (texto branco, contraste AA) */
+  .btn-primary {
+    @apply btn text-white px-6 py-4 shadow-card hover:-translate-y-0.5 hover:brightness-[1.06];
+    background-image: linear-gradient(135deg, #0b66dd, #0e4f9a);
+  }
+  .btn-outline {
+    @apply btn border border-line text-ink px-6 py-4 hover:border-brand hover:text-brand-ink;
+  }
+  .btn-ghost {
+    @apply btn border border-white/25 text-white px-6 py-4 hover:bg-white/10;
+  }
+  .card {
+    @apply rounded-xl2 border border-line bg-canvas shadow-card;
+  }
+  .link-underline {
+    @apply underline decoration-from-font underline-offset-2 hover:text-brand-ink;
+  }
+}
+
+/* ===== Reveal on scroll (respeita reduce-motion) ===== */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity .6s ease-out, transform .6s ease-out;
+  }
+  .reveal.is-visible { opacity: 1; transform: none; }
+  /* linhas de conexao desenhando (decorativo) */
+  .draw-line { stroke-dasharray: 1; stroke-dashoffset: 1; }
+  .reveal.is-visible .draw-line {
+    animation: draw 1.4s ease-out forwards;
+  }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+}

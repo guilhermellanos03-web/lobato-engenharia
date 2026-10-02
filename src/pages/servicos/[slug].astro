@@ -1,0 +1,140 @@
+---
+import Base from '../../layouts/Base.astro';
+import Navbar from '../../components/Navbar.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import Faq from '../../components/Faq.astro';
+import FinalCta from '../../components/FinalCta.astro';
+import Footer from '../../components/Footer.astro';
+import FloatingWhatsApp from '../../components/FloatingWhatsApp.astro';
+import WhatsAppButton from '../../components/WhatsAppButton.astro';
+import Icon from '../../components/Icon.astro';
+import { services, getService } from '../../data/site';
+
+export function getStaticPaths() {
+  return services.map((s) => ({ params: { slug: s.slug }, props: { service: s } }));
+}
+
+const { service } = Astro.props;
+const related = service.related
+  .map((slug) => getService(slug))
+  .filter((s): s is NonNullable<typeof s> => Boolean(s));
+
+const SITE_URL = import.meta.env.PUBLIC_SITE_URL || 'https://lobato-engenharia.vercel.app';
+const serviceLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: service.title,
+  serviceType: service.title,
+  description: service.metaDescription,
+  areaServed: { '@type': 'City', name: 'Curitiba' },
+  provider: { '@id': SITE_URL + '/#organization' },
+  url: new URL(`/servicos/${service.slug}/`, SITE_URL).href,
+};
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: service.faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+const crumbs = [
+  { label: 'Início', href: '/' },
+  { label: 'Soluções', href: '/servicos/' },
+  { label: service.title },
+];
+---
+<Base title={service.metaTitle} description={service.metaDescription} jsonLd={[serviceLd, faqLd]}>
+  <Navbar />
+  <main id="conteudo">
+    <PageHeader eyebrow={service.eyebrow} title={service.h1} lead={service.intro} crumbs={crumbs} />
+
+    <!-- Contexto -->
+    <section class="bg-canvas py-16 lg:py-20">
+      <div class="container-rc grid lg:grid-cols-[auto_1fr] gap-6 lg:gap-12 items-start reveal">
+        <span class="flex items-center justify-center w-14 h-14 rounded-xl2 bg-brand/10 text-brand-ink shrink-0">
+          <Icon name={service.icon} class="w-7 h-7" />
+        </span>
+        <div class="max-w-2xl">
+          <h2 class="font-bold text-ink" style="font-size:clamp(1.4rem,3.5vw,2rem)">O cenário que essa solução resolve</h2>
+          <p class="mt-4 text-lg leading-relaxed">{service.problem}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Abrange + Resultados -->
+    <section class="bg-surface py-16 lg:py-24">
+      <div class="container-rc grid lg:grid-cols-2 gap-8 lg:gap-12">
+        <div class="reveal card p-7 lg:p-9">
+          <h2 class="font-heading font-bold text-xl text-ink">O que a solução abrange</h2>
+          <ul class="mt-6 space-y-4">
+            {service.scope.map((item) => (
+              <li class="flex items-start gap-3">
+                <span class="mt-0.5 flex items-center justify-center w-6 h-6 rounded-md bg-brand/10 text-brand-ink shrink-0">
+                  <Icon name="check" class="w-4 h-4" />
+                </span>
+                <span class="text-ink">{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="reveal card p-7 lg:p-9">
+          <h2 class="font-heading font-bold text-xl text-ink">O que você ganha</h2>
+          <ul class="mt-6 space-y-4">
+            {service.outcomes.map((item) => (
+              <li class="flex items-start gap-3">
+                <span class="mt-0.5 flex items-center justify-center w-6 h-6 rounded-md bg-brand-cyan/15 text-brand-ink shrink-0">
+                  <Icon name="arrow" class="w-4 h-4" />
+                </span>
+                <span class="text-ink">{item}</span>
+              </li>
+            ))}
+          </ul>
+          <p class="mt-6 text-sm text-body">
+            O escopo final é definido após a etapa de entendimento, conforme a estrutura e os objetivos do projeto.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA contextual -->
+    <section class="bg-canvas py-14">
+      <div class="container-rc">
+        <div class="rounded-xl2 bg-brand-deep text-white p-8 lg:p-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6 reveal">
+          <div>
+            <h2 class="font-bold text-white text-xl lg:text-2xl">Tem um projeto de {service.title.toLowerCase()}?</h2>
+            <p class="mt-2 text-white/70">Envie uma descrição inicial e receba uma orientação sobre os próximos passos.</p>
+          </div>
+          <WhatsAppButton location="services" service={service.slug} solution={service.title} class="shrink-0" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Relacionados -->
+    <section class="bg-surface py-16 lg:py-20">
+      <div class="container-rc">
+        <h2 class="font-bold text-ink reveal" style="font-size:clamp(1.3rem,3vw,1.8rem)">Soluções relacionadas</h2>
+        <div class="mt-8 grid gap-5 sm:grid-cols-3 reveal">
+          {related.map((s) => (
+            <a href={`/servicos/${s.slug}/`} class="group card p-6 hover:-translate-y-1 hover:border-brand/40 transition-all">
+              <span class="flex items-center justify-center w-11 h-11 rounded-xl bg-brand/10 text-brand-ink">
+                <Icon name={s.icon} class="w-5 h-5" />
+              </span>
+              <h3 class="mt-4 font-heading font-bold text-ink">{s.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed">{s.short}</p>
+              <span class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-ink">
+                Ver solução <Icon name="arrow" class="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <Faq items={service.faqs} heading={`Dúvidas sobre ${service.title.toLowerCase()}`} eyebrow="FAQ" />
+    <FinalCta solution={service.title} service={service.slug} />
+  </main>
+  <Footer />
+  <FloatingWhatsApp />
+</Base>

@@ -1,0 +1,76 @@
+---
+import { site, flags, nav, services } from '../data/site';
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+const year = new Date().getFullYear();
+---
+<footer class="bg-brand-deep text-white/70">
+  <div class="container-rc py-14 lg:py-16">
+    <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.1fr]">
+      <!-- Marca -->
+      <div>
+        <Logo tone="light" />
+        <p class="mt-4 text-sm leading-relaxed max-w-xs">
+          Engenharia, automação e tecnologia para operações e ambientes mais eficientes, seguros e conectados. Sediada em {site.city}, {site.region}.
+        </p>
+        <a
+          href={site.linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="LinkedIn da Lobato Engenharia"
+          class="mt-5 inline-flex items-center justify-center w-10 h-10 rounded-lg border border-white/15 text-white hover:bg-white/10"
+        >
+          <Icon name="linkedin" class="w-5 h-5" />
+        </a>
+      </div>
+
+      <!-- Paginas -->
+      <nav aria-label="Páginas">
+        <h4 class="text-white font-heading font-semibold text-sm">Navegação</h4>
+        <ul class="mt-4 space-y-2.5 text-sm">
+          {nav.map((i) => (
+            <li><a href={i.href} class="hover:text-white">{i.label}</a></li>
+          ))}
+          <li><a href="/politica-de-privacidade/" class="hover:text-white">Política de privacidade</a></li>
+        </ul>
+      </nav>
+
+      <!-- Solucoes -->
+      <nav aria-label="Soluções">
+        <h4 class="text-white font-heading font-semibold text-sm">Soluções</h4>
+        <ul class="mt-4 space-y-2.5 text-sm">
+          {services.map((s) => (
+            <li><a href={`/servicos/${s.slug}/`} class="hover:text-white">{s.title}</a></li>
+          ))}
+        </ul>
+      </nav>
+
+      <!-- Contato -->
+      <div>
+        <h4 class="text-white font-heading font-semibold text-sm">Contato</h4>
+        <ul class="mt-4 space-y-3 text-sm">
+          <li class="flex items-center gap-2.5">
+            <Icon name="phone" class="w-4 h-4 text-brand-cyan shrink-0" />
+            <a href={`tel:${site.phoneDigits}`} data-location="footer" class="hover:text-white">{site.phoneDisplay}</a>
+          </li>
+          <li class="flex items-center gap-2.5">
+            <Icon name="mail" class="w-4 h-4 text-brand-cyan shrink-0" />
+            <a href={`mailto:${site.email}`} data-location="footer" class="hover:text-white break-all">{site.email}</a>
+          </li>
+          <li class="flex items-center gap-2.5">
+            <Icon name="pin" class="w-4 h-4 text-brand-cyan shrink-0" />
+            <span>{site.city}, {site.regionName}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-12 pt-7 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs">
+      <div class="space-y-1">
+        <p>&copy; {year} {site.name}.</p>
+        {flags.showCnpj && <p>CNPJ {site.cnpj}</p>}
+      </div>
+      <h4 class="text-white/80 font-normal text-xs">Desenvolvido por Llanos</h4>
+    </div>
+  </div>
+</footer>

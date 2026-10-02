@@ -1,0 +1,34 @@
+---
+import Base from '../../layouts/Base.astro';
+import Navbar from '../../components/Navbar.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import Solutions from '../../components/Solutions.astro';
+import Process from '../../components/Process.astro';
+import FinalCta from '../../components/FinalCta.astro';
+import Footer from '../../components/Footer.astro';
+import FloatingWhatsApp from '../../components/FloatingWhatsApp.astro';
+
+const title = 'Soluções em Automação e Engenharia em Curitiba | Lobato';
+const description =
+  'Conheça as soluções da Lobato Engenharia: automação industrial e predial, domótica, IoT, Indústria 4.0, elétrica predial, TI e telecomunicações em Curitiba.';
+const crumbs = [
+  { label: 'Início', href: '/' },
+  { label: 'Soluções' },
+];
+---
+<Base title={title} description={description}>
+  <Navbar />
+  <main id="conteudo">
+    <PageHeader
+      eyebrow="Soluções"
+      title="Soluções em engenharia e automação"
+      lead="A Lobato integra diferentes áreas em um mesmo projeto. Cada solução parte da análise da necessidade e pode se conectar às demais conforme a operação evolui."
+      crumbs={crumbs}
+    />
+    <Solutions heading="Áreas de atuação" />
+    <Process />
+    <FinalCta />
+  </main>
+  <Footer />
+  <FloatingWhatsApp />
+</Base>

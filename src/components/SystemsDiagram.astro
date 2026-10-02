@@ -1,0 +1,53 @@
+---
+// Diagrama abstrato de integracao de sistemas (decorativo).
+// Evita foto de banco generica e mantem performance. aria-hidden.
+interface Props { variant?: 'onDark' | 'onLight'; class?: string; }
+const { variant = 'onDark', class: cls = '' } = Astro.props;
+const dark = variant === 'onDark';
+const line = dark ? 'rgba(255,255,255,.28)' : 'rgba(8,116,249,.28)';
+const nodeFill = dark ? 'rgba(255,255,255,.06)' : '#FFFFFF';
+const nodeStroke = dark ? 'rgba(255,255,255,.16)' : '#DBE4EC';
+const text = dark ? '#EAF2FB' : '#0B1B2B';
+const dot = dark ? '#27B8E8' : '#0874F9';
+const uid = 'sd' + Math.random().toString(36).slice(2, 7);
+
+const nodes = [
+  { x: 230, y: 60, label: 'Indústria' },
+  { x: 360, y: 135, label: 'Predial' },
+  { x: 360, y: 285, label: 'IoT' },
+  { x: 230, y: 360, label: 'Elétrica' },
+  { x: 100, y: 285, label: 'TI' },
+  { x: 100, y: 135, label: 'Domótica' },
+];
+const cx = 230, cy = 210;
+---
+<svg viewBox="0 0 460 420" class={cls} role="img" aria-label="Diagrama de integração de sistemas" fill="none">
+  <g class="draw-line">
+    {nodes.map((n) => (
+      <line x1={cx} y1={cy} x2={n.x} y2={n.y} stroke={line} stroke-width="1.5" />
+    ))}
+  </g>
+  {nodes.map((n) => (
+    <g>
+      <rect x={n.x - 56} y={n.y - 19} width="112" height="38" rx="19" fill={nodeFill} stroke={nodeStroke} />
+      <circle cx={n.x - 38} cy={n.y} r="3.5" fill={dot} />
+      <text x={n.x - 26} y={n.y + 4} font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="600" fill={text}>{n.label}</text>
+    </g>
+  ))}
+  <!-- Hub central -->
+  <circle cx={cx} cy={cy} r="40" fill={`url(#${uid})`} />
+  <g stroke="#fff" stroke-width="2" stroke-linecap="round" fill="none">
+    <path d={`M${cx - 10} ${cy + 9} L${cx - 10} ${cy - 8} L${cx + 11} ${cy - 8}`} opacity="0.95" />
+  </g>
+  <g fill="#fff">
+    <circle cx={cx - 10} cy={cy + 9} r="3.4" />
+    <circle cx={cx - 10} cy={cy - 8} r="3.4" />
+    <circle cx={cx + 11} cy={cy - 8} r="3.4" />
+  </g>
+  <defs>
+    <linearGradient id={uid} x1={cx - 40} y1={cy - 40} x2={cx + 40} y2={cy + 40} gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0874F9" />
+      <stop offset="1" stop-color="#27B8E8" />
+    </linearGradient>
+  </defs>
+</svg>

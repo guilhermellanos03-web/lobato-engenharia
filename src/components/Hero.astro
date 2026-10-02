@@ -1,0 +1,43 @@
+---
+import WhatsAppButton from './WhatsAppButton.astro';
+import SystemsDiagram from './SystemsDiagram.astro';
+import Icon from './Icon.astro';
+const chips = ['Projetos personalizados', 'Atendimento consultivo', 'Curitiba, Paraná'];
+---
+<section class="relative overflow-hidden bg-brand-deep text-white">
+  <!-- degrade principal unico + grade sutil -->
+  <div class="absolute inset-0" aria-hidden="true" style="background-image:radial-gradient(1200px 600px at 78% -10%, rgba(39,184,232,.20), transparent 60%), linear-gradient(180deg, #061A33 0%, #08244a 100%)"></div>
+  <div class="absolute inset-0 opacity-[0.05]" aria-hidden="true" style="background-image:linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px);background-size:56px 56px"></div>
+
+  <div class="container-rc relative py-16 sm:py-20 lg:py-28">
+    <div class="grid lg:grid-cols-[1.08fr_1fr] gap-12 lg:gap-14 items-center">
+      <div class="reveal">
+        <span class="eyebrow !text-brand-cyan">Engenharia, automação e integração de sistemas</span>
+        <h1 class="mt-4 font-extrabold text-white leading-[1.08]" style="font-size:clamp(2.1rem,6vw,3.5rem)">
+          Automação e engenharia para operações mais eficientes, seguras e conectadas.
+        </h1>
+        <p class="mt-5 text-white/75 leading-relaxed max-w-xl" style="font-size:clamp(1rem,2.4vw,1.15rem)">
+          A Lobato desenvolve soluções em automação industrial e predial, IoT, elétrica, TI e telecomunicações para empresas e empreendimentos que precisam integrar processos, equipamentos e informações.
+        </p>
+
+        <div class="mt-8 flex flex-col sm:flex-row gap-3">
+          <WhatsAppButton location="hero" />
+          <a href="/servicos/" class="btn-ghost">Conhecer as soluções</a>
+        </div>
+
+        <ul class="mt-9 flex flex-wrap gap-x-6 gap-y-2.5">
+          {chips.map((c) => (
+            <li class="flex items-center gap-2 text-sm text-white/80">
+              <Icon name="check" class="w-4 h-4 text-brand-cyan" />
+              {c}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="reveal lg:justify-self-end w-full max-w-[460px] mx-auto">
+        <SystemsDiagram variant="onDark" class="w-full h-auto" />
+      </div>
+    </div>
+  </div>
+</section>
