@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://lobato-engenharia-llanos-projects.vercel.app/sitemap.xml
+Sitemap: https://lobato-engenharia.vercel.app/sitemap.xml

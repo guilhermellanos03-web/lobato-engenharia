@@ -4,7 +4,7 @@ interface Crumb { label: string; href?: string; }
 interface Props { items: Crumb[]; }
 const { items } = Astro.props;
 
-const SITE_URL = import.meta.env.PUBLIC_SITE_URL || 'https://lobato-engenharia-llanos-projects.vercel.app';
+const SITE_URL = import.meta.env.PUBLIC_SITE_URL || 'https://lobato-engenharia.vercel.app';
 const ld = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
