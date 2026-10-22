@@ -129,14 +129,15 @@ const serviceImage = serviceImages[service.slug] || serviceImages['automacao-ind
         <h2 class="font-bold text-ink reveal" style="font-size:clamp(1.3rem,3vw,1.8rem)">Soluções relacionadas</h2>
         <div class="mt-8 grid gap-5 sm:grid-cols-3 stagger">
           {related.map((s) => (
-            <a href={`/servicos/${s.slug}/`} class="st group card p-6 hover:-translate-y-1 hover:border-brand/40 transition-all">
+            <a href={`/servicos/${s.slug}/`} class="st group card relative overflow-hidden p-6 hover:-translate-y-1 hover:border-brand/40 transition-all">
+              <span class="absolute inset-x-0 top-0 h-[3px] bg-brand origin-left scale-x-0 transition-transform duration-300 ease-out group-hover:scale-x-100" aria-hidden="true"></span>
               <span class="flex items-center justify-center w-11 h-11 rounded-xl bg-brand/10 text-brand-ink">
                 <Icon name={s.icon} class="w-5 h-5" />
               </span>
               <h3 class="mt-4 font-heading font-bold text-ink">{s.title}</h3>
               <p class="mt-2 text-sm leading-relaxed">{s.short}</p>
-              <span class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-ink">
-                Ver solução <Icon name="arrow" class="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              <span class="mt-4 text-sm font-semibold text-brand-ink underline-offset-4 group-hover:underline">
+                Ver solução
               </span>
             </a>
           ))}

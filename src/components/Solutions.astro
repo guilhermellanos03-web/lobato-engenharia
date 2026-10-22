@@ -18,16 +18,16 @@ const { heading = 'Soluções conectadas à necessidade de cada projeto' } = Ast
       {services.map((s) => (
         <a
           href={`/servicos/${s.slug}/`}
-          class="st group card p-6 flex flex-col transition-all hover:-translate-y-1 hover:border-brand/40"
+          class="st group card relative overflow-hidden p-6 flex flex-col transition-all hover:-translate-y-1 hover:border-brand/40"
         >
+          <span class="absolute inset-x-0 top-0 h-[3px] bg-brand origin-left scale-x-0 transition-transform duration-300 ease-out group-hover:scale-x-100" aria-hidden="true"></span>
           <span class="flex items-center justify-center w-12 h-12 rounded-xl bg-brand/10 text-brand-ink">
             <Icon name={s.icon} class="w-6 h-6" />
           </span>
           <h3 class="mt-5 font-heading font-bold text-lg text-ink">{s.title}</h3>
           <p class="mt-2 text-[15px] leading-relaxed flex-1">{s.short}</p>
-          <span class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-ink">
+          <span class="mt-5 text-sm font-semibold text-brand-ink underline-offset-4 group-hover:underline">
             Entender esta solução
-            <Icon name="arrow" class="w-4 h-4 transition-transform group-hover:translate-x-1" />
           </span>
         </a>
       ))}

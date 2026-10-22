@@ -59,10 +59,10 @@
   .btn {
     @apply inline-flex items-center justify-center gap-2 rounded-xl font-semibold leading-none text-center transition-all duration-200;
   }
-  /* CTA principal: azul da marca em degrade (texto branco, contraste AA) */
+  /* CTA principal: azul solido da marca (sem wash de gradiente), contraste AA */
   .btn-primary {
-    @apply btn text-white px-6 py-4 shadow-card hover:-translate-y-0.5 hover:brightness-[1.06];
-    background-image: linear-gradient(135deg, #0b66dd, #0e4f9a);
+    @apply btn text-white px-6 py-4 shadow-card hover:-translate-y-0.5 hover:brightness-[1.07];
+    background-color: #0b66dd;
   }
   .btn-outline {
     @apply btn border border-line text-ink px-6 py-4 hover:border-brand hover:text-brand-ink;
