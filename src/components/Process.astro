@@ -2,7 +2,7 @@
 import { process } from '../data/site';
 ---
 <section id="como-trabalhamos" class="bg-brand-deep text-white py-20 lg:py-28 relative overflow-hidden">
-  <div class="absolute inset-0 opacity-[0.04]" aria-hidden="true" style="background-image:linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px);background-size:56px 56px"></div>
+  <div class="absolute inset-0" aria-hidden="true" style="background-image:radial-gradient(760px 420px at 12% 0%, rgba(0,107,245,.16), transparent 62%)"></div>
   <div class="container-rc relative">
     <div class="max-w-2xl reveal">
       <span class="eyebrow !text-brand-cyan">Processo Lobato</span>
@@ -12,17 +12,23 @@ import { process } from '../data/site';
       </p>
     </div>
 
-    <ol class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4 reveal">
-      {process.map((p, i) => (
-        <li class="relative">
-          <div class="flex items-center gap-3">
-            <span class="font-heading text-4xl font-bold text-brand-cyan/40 leading-none">{p.n}</span>
-            {i < process.length - 1 && <span class="hidden lg:block flex-1 h-px bg-white/15"></span>}
-          </div>
-          <h3 class="mt-4 font-bold text-lg text-white">{p.title}</h3>
-          <p class="mt-2 text-white/65 text-[15px] leading-relaxed">{p.desc}</p>
-        </li>
-      ))}
-    </ol>
+    <div class="stagger relative mt-14">
+      <!-- trilho animado (desktop): liga as etapas e preenche conforme o scroll -->
+      <div class="hidden lg:block absolute left-0 right-0 top-6 h-px bg-white/12" aria-hidden="true">
+        <div class="proc-line h-px w-full bg-gradient-to-r from-brand-cyan to-brand"></div>
+      </div>
+
+      <ol class="grid gap-x-8 gap-y-11 sm:grid-cols-2 lg:grid-cols-4">
+        {process.map((p) => (
+          <li class="st relative">
+            <span class="relative z-10 flex items-center justify-center w-12 h-12 rounded-full bg-brand-deep border border-white/15 font-heading text-lg font-bold text-brand-cyan">
+              {p.n}
+            </span>
+            <h3 class="mt-5 font-bold text-lg text-white">{p.title}</h3>
+            <p class="mt-2 text-white/65 text-[15px] leading-relaxed">{p.desc}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
   </div>
 </section>

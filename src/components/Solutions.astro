@@ -14,11 +14,11 @@ const { heading = 'Soluções conectadas à necessidade de cada projeto' } = Ast
       </p>
     </div>
 
-    <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 reveal">
+    <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 stagger">
       {services.map((s) => (
         <a
           href={`/servicos/${s.slug}/`}
-          class="group card p-6 flex flex-col transition-all hover:-translate-y-1 hover:border-brand/40"
+          class="st group card p-6 flex flex-col transition-all hover:-translate-y-1 hover:border-brand/40"
         >
           <span class="flex items-center justify-center w-12 h-12 rounded-xl bg-brand/10 text-brand-ink">
             <Icon name={s.icon} class="w-6 h-6" />

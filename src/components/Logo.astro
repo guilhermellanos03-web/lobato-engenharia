@@ -1,37 +1,20 @@
 ---
-// Logotipo PROVISORIO (marca tipografica + glifo de integracao).
-// Substituir pelo logo oficial da Lobato quando fornecido (ver DADOS-PENDENTES.md).
 interface Props { class?: string; tone?: 'auto' | 'light'; markOnly?: boolean; }
 const { class: cls = '', tone = 'auto', markOnly = false } = Astro.props;
-const uid = 'lg' + Math.random().toString(36).slice(2, 8);
-const textCls = tone === 'light' ? 'text-white' : 'text-ink';
-const subCls = tone === 'light' ? 'text-white/70' : 'text-body';
+const blueSource = markOnly ? '/brand/simbolo-azul.png' : '/brand/logo-horizontal-azul.png';
+const whiteSource = markOnly ? '/brand/simbolo-branco.png' : '/brand/logo-horizontal-branca.png';
+const width = markOnly ? 72 : 362;
+const height = markOnly ? 78 : 104;
+const imageClass = markOnly ? 'h-9 w-auto' : 'h-10 sm:h-11 w-auto max-w-[210px] sm:max-w-[250px]';
+const alt = markOnly ? 'Lobato Engenharia' : 'Lobato Engenharia e Sistemas de Automação';
 ---
-<span class={`inline-flex items-center gap-2.5 ${cls}`} aria-label={markOnly ? 'Lobato Engenharia e Sistemas de Automação' : undefined}>
-  <svg width="38" height="38" viewBox="0 0 40 40" fill="none" aria-hidden="true" class="shrink-0">
-    <rect width="40" height="40" rx="10" fill={`url(#${uid})`} />
-    <!-- glifo: nos conectados (integracao de sistemas) -->
-    <g stroke="#fff" stroke-width="1.8" stroke-linecap="round">
-      <path d="M12 27 L12 16 L28 16" opacity="0.9" />
-      <path d="M12 21 L22 21" opacity="0.55" />
-    </g>
-    <g fill="#fff">
-      <circle cx="12" cy="27" r="2.6" />
-      <circle cx="12" cy="16" r="2.6" />
-      <circle cx="28" cy="16" r="2.6" />
-      <circle cx="22" cy="21" r="2" opacity="0.8" />
-    </g>
-    <defs>
-      <linearGradient id={uid} x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
-        <stop stop-color="#0874F9" />
-        <stop offset="1" stop-color="#27B8E8" />
-      </linearGradient>
-    </defs>
-  </svg>
-  {!markOnly && (
-    <span class="leading-none">
-      <span class={`block font-heading font-bold text-[1.05rem] tracking-tight ${textCls}`}>Lobato</span>
-      <span class={`block text-[0.62rem] font-semibold uppercase tracking-[0.16em] ${subCls}`}>Engenharia &amp; Automação</span>
-    </span>
+<span class={`inline-flex items-center ${cls}`}>
+  {tone === 'light' ? (
+    <img src={whiteSource} width={width} height={height} alt={alt} class={`block object-contain object-left ${imageClass}`} loading="eager" decoding="async" />
+  ) : (
+    <>
+      <img src={blueSource} width={width} height={height} alt={alt} class={`block object-contain object-left dark:hidden ${imageClass}`} loading="eager" decoding="async" />
+      <img src={whiteSource} width={width} height={height} alt="" aria-hidden="true" class={`hidden object-contain object-left dark:block ${imageClass}`} loading="eager" decoding="async" />
+    </>
   )}
 </span>

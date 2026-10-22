@@ -44,6 +44,15 @@ const crumbs = [
   { label: 'Soluções', href: '/servicos/' },
   { label: service.title },
 ];
+const serviceImages: Record<string, { src: string; alt: string; width: number; height: number }> = {
+  'automacao-industrial': { src: '/brand/automacao-eletrica-paineis.webp', alt: 'Técnico realizando medição em painel elétrico de automação', width: 1448, height: 1086 },
+  'eletrica-predial': { src: '/brand/automacao-eletrica-paineis.webp', alt: 'Técnico realizando medição em painel elétrico de automação', width: 1448, height: 1086 },
+  'automacao-predial': { src: '/brand/automacao-predial-iot.webp', alt: 'Profissional acompanhando sistemas de automação predial', width: 1448, height: 1086 },
+  'iot-industria-4-0': { src: '/brand/automacao-predial-iot.webp', alt: 'Profissional acompanhando dados e sistemas integrados de automação', width: 1448, height: 1086 },
+  'ti-telecomunicacoes': { src: '/brand/automacao-predial-iot.webp', alt: 'Profissional acompanhando infraestrutura tecnológica integrada', width: 1448, height: 1086 },
+  'domotica': { src: '/brand/domotica-residencial.webp', alt: 'Controle de iluminação e climatização em ambiente residencial automatizado', width: 1586, height: 992 },
+};
+const serviceImage = serviceImages[service.slug] || serviceImages['automacao-industrial'];
 ---
 <Base title={service.metaTitle} description={service.metaDescription} jsonLd={[serviceLd, faqLd]}>
   <Navbar />
@@ -52,12 +61,15 @@ const crumbs = [
 
     <!-- Contexto -->
     <section class="bg-canvas py-16 lg:py-20">
-      <div class="container-rc grid lg:grid-cols-[auto_1fr] gap-6 lg:gap-12 items-start reveal">
-        <span class="flex items-center justify-center w-14 h-14 rounded-xl2 bg-brand/10 text-brand-ink shrink-0">
-          <Icon name={service.icon} class="w-7 h-7" />
-        </span>
+      <div class="container-rc grid lg:grid-cols-[.9fr_1.1fr] gap-8 lg:gap-14 items-center reveal">
+        <figure class="overflow-hidden rounded-xl2 border border-line bg-surface shadow-card">
+          <img src={serviceImage.src} width={serviceImage.width} height={serviceImage.height} alt={serviceImage.alt} class="parallax aspect-[4/3] w-full object-cover" loading="lazy" decoding="async" />
+        </figure>
         <div class="max-w-2xl">
-          <h2 class="font-bold text-ink" style="font-size:clamp(1.4rem,3.5vw,2rem)">O cenário que essa solução resolve</h2>
+          <span class="flex items-center justify-center w-14 h-14 rounded-xl2 bg-brand/10 text-brand-ink shrink-0">
+            <Icon name={service.icon} class="w-7 h-7" />
+          </span>
+          <h2 class="mt-6 font-bold text-ink" style="font-size:clamp(1.4rem,3.5vw,2rem)">O cenário que essa solução resolve</h2>
           <p class="mt-4 text-lg leading-relaxed">{service.problem}</p>
         </div>
       </div>
@@ -115,9 +127,9 @@ const crumbs = [
     <section class="bg-surface py-16 lg:py-20">
       <div class="container-rc">
         <h2 class="font-bold text-ink reveal" style="font-size:clamp(1.3rem,3vw,1.8rem)">Soluções relacionadas</h2>
-        <div class="mt-8 grid gap-5 sm:grid-cols-3 reveal">
+        <div class="mt-8 grid gap-5 sm:grid-cols-3 stagger">
           {related.map((s) => (
-            <a href={`/servicos/${s.slug}/`} class="group card p-6 hover:-translate-y-1 hover:border-brand/40 transition-all">
+            <a href={`/servicos/${s.slug}/`} class="st group card p-6 hover:-translate-y-1 hover:border-brand/40 transition-all">
               <span class="flex items-center justify-center w-11 h-11 rounded-xl bg-brand/10 text-brand-ink">
                 <Icon name={s.icon} class="w-5 h-5" />
               </span>
@@ -138,3 +150,4 @@ const crumbs = [
   <Footer />
   <FloatingWhatsApp />
 </Base>
+
